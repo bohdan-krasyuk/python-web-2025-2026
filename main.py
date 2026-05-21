@@ -1,7 +1,9 @@
 from fastapi import FastAPI, Response, status
 from pydantic import BaseModel, Field
 
+from app.dtos.client_dtos import ClientDto
 from app.dtos.product_dtos import ProductDto, UpdateProductDto
+from app.services.client_service import ClientServiceDependency
 from app.services.product_service import ProductServiceDependency
 
 app = FastAPI()
@@ -9,6 +11,10 @@ app = FastAPI()
 # CRUD - Create, Read, Update, Delete
 
 # JSON
+
+@app.get("/clients")
+def get_clients(service: ClientServiceDependency) -> list[ClientDto]:
+    return service.get_all()
 
 @app.get("/products")
 def get_products(service: ProductServiceDependency) -> list[ProductDto]:
